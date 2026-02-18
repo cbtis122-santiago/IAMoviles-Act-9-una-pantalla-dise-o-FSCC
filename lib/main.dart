@@ -52,7 +52,7 @@ class _MenuAlaburgerState extends State<MenuAlaburger> with SingleTickerProvider
         children: [
           // LLAMAS ANIMADAS DE FONDO
           FadeTransition(
-            opacity: Tween(begin: 0.1, end: 0.3).animate(_controller),
+            opacity: Tween<double>(begin: 0.1, end: 0.3).animate(_controller),
             child: Stack(
               children: [
                 Positioned(
@@ -77,14 +77,14 @@ class _MenuAlaburgerState extends State<MenuAlaburger> with SingleTickerProvider
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Tooltip(
+                    children: <Widget>[
+                      const Tooltip(
                         message: 'Favoritos',
-                        child: const Icon(Icons.star_rounded, color: Colors.orange, size: 32),
+                        child: Icon(Icons.star_rounded, color: Colors.orange, size: 32),
                       ),
-                      Tooltip(
+                      const Tooltip(
                         message: 'Buscar',
-                        child: const Icon(Icons.search_rounded, color: Colors.white, size: 32),
+                        child: Icon(Icons.search_rounded, color: Colors.white, size: 32),
                       ),
                     ],
                   ),
@@ -100,7 +100,7 @@ class _MenuAlaburgerState extends State<MenuAlaburger> with SingleTickerProvider
                     color: Colors.white,
                     letterSpacing: 4,
                     height: 0.9,
-                    shadows: [
+                    shadows: <Shadow>[
                       Shadow(color: Colors.orange, blurRadius: 20, offset: Offset(0, 4)),
                       Shadow(color: Colors.red, blurRadius: 40),
                     ],
@@ -126,26 +126,26 @@ class _MenuAlaburgerState extends State<MenuAlaburger> with SingleTickerProvider
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                       childAspectRatio: 0.78,
-                      children: const [
+                      children: const <FoodItem>[
                         FoodItem(
                           name: 'CARNE POLLO',
                           price: '180',
-                          img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=400',
+                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/carnepollo.jpg',
                         ),
                         FoodItem(
                           name: 'VEGANA',
                           price: '150',
-                          img: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?w=400',
+                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/vegana.jpg',
                         ),
                         FoodItem(
                           name: 'ULTRA QUESO',
                           price: '250',
-                          img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400',
+                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/ultraqueso.jpg',
                         ),
                         FoodItem(
                           name: 'GASEOSA',
                           price: '25',
-                          img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400',
+                          img: 'https://raw.githubusercontent.com/cbtis122-santiago/IAMoviles-Act-9-una-pantalla-dise-o-FSCC/master/gaseosa.jpg',
                         ),
                       ],
                     ),
@@ -160,13 +160,13 @@ class _MenuAlaburgerState extends State<MenuAlaburger> with SingleTickerProvider
       // NAVBAR INFERIOR CON TOOLTIPS
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 15),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1A1A1A),
-          border: Border(top: BorderSide(color: Colors.orange.withOpacity(0.2))),
+        decoration: const BoxDecoration(
+          color: Color(0xFF1A1A1A),
+          border: Border(top: BorderSide(color: Colors.orange)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: <Widget>[
             Tooltip(
               message: 'Atrás',
               child: IconButton(
@@ -208,29 +208,49 @@ class FoodItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E1E),
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.orange.withOpacity(0.1)),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10, offset: const Offset(0, 5))
+        border: Border.all(color: Colors.orange),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(color: Colors.black, blurRadius: 10, offset: Offset(0, 5))
         ],
       ),
       child: Column(
-        children: [
+        children: <Widget>[
           Expanded(
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
               child: Image.network(
-                img, 
-                fit: BoxFit.cover, 
+                img,
+                fit: BoxFit.cover,
                 width: double.infinity,
-                // Manejo de error si la imagen no carga
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.fastfood, size: 50),
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                          : null,
+                      color: Colors.orange,
+                    ),
+                  );
+                },
+                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                  return const Center(
+                    child: Icon(
+                      Icons.broken_image,
+                      color: Colors.grey,
+                      size: 50,
+                    ),
+                  );
+                },
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
-              children: [
+              children: <Widget>[
                 Text(
                   name,
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, letterSpacing: 1),
