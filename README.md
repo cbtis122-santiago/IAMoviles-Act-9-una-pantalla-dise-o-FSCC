@@ -1,16 +1,4 @@
-# myapp
+ESTE SI ES EL CORRECTO
+<img width="276" height="472" alt="image" src="https://github.com/user-attachments/assets/f9ba6929-2dcf-4bbd-b1c8-48c0f163f69c" />
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="454" height="861" alt="image" src="https://github.com/user-attachments/assets/348ee8b4-f02e-4447-8f89-e585f13e82ad" />
